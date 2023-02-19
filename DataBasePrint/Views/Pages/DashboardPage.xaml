@@ -1,0 +1,78 @@
+﻿<ui:UiPage x:Class="DataBasePrint.Views.Pages.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DataBasePrint.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="DashboardPage"
+    d:DataContext="{d:DesignInstance local:DashboardPage, IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:Background="{DynamicResource ApplicationBackgroundBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+   mc:Ignorable="d" Width="1022" Height="813" VerticalAlignment="Top">
+
+    <Grid Margin="0,0,-244,-51">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="147*"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="82*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1058" />
+        </Grid.ColumnDefinitions>
+        <ui:Button x:Name="OpenExcel" Grid.Column="1" Content="Otvotiť súbor" Width="147" Click="OpenExcel_Click" Height="46" Margin="8,2,0,0" MinWidth="147" MaxWidth="147" MinHeight="46" MaxHeight="46" VerticalAlignment="Top"/>
+        <ComboBox x:Name="ComboBox" Grid.Column="1" HorizontalAlignment="Left" Width="185" Height="42" Margin="277,4,0,0" FontSize="12" FontWeight="Bold" MinWidth="180" MaxWidth="180" MaxHeight="40" MinHeight="40" VerticalAlignment="Top"/>
+        <DataGrid x:Name="DataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Column="1" SelectionChanged="DataGrid_SelectionChanged" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxColumnWidth="110" MinColumnWidth="110" HorizontalAlignment="Left" Width="1017" RowBackground="#FF918D8D" HorizontalGridLinesBrush="#FF8E8A8A" VerticalGridLinesBrush="#FF9A9A9A" HeadersVisibility="None" CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeRows="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" Margin="0,136,0,0"/>
+        <TextBox x:Name="intarvalOP"  Grid.Column="1" HorizontalAlignment="Left" Margin="769,61,0,0" TextWrapping="Wrap" Width="100" Height="34" Grid.Row="2" LostFocus="IntarvalOP_LostFocus" MinWidth="100" MaxWidth="100" MaxHeight="30" MinHeight="30" FontSize="12" MaxLength="5" MaxLines="1" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn1" Grid.Column="1" Content="Stĺpec0" Margin="19,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn2" Grid.Column="1" Content="Stĺpec1" Margin="130,104,0,0" FontSize="12" Width="120" Height="32" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn3" Grid.Column="1" Content="Stĺpec2" Margin="240,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn4" Grid.Column="1" Content="Stĺpec3" Margin="351,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn5" Grid.Column="1" Content="Stĺpec4" FontSize="12" Width="120" Height="32" Margin="461,104,0,0" RenderTransformOrigin="0.508,0.448" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn6" Grid.Column="1" Content="Stĺpec5" FontSize="12" RenderTransformOrigin="0.753,0.026" Height="32" Width="120" HorizontalContentAlignment="Center" Margin="570,104,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn7" Grid.Column="1" Content="Stĺpec6" Margin="679,104,0,0" FontSize="12" RenderTransformOrigin="1.152,0.476" Height="32" Width="120" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkColumn8" Grid.Column="1" Content="Stĺpec7" Margin="788,104,0,0" FontSize="12" RenderTransformOrigin="1.152,0.476" Height="32" Width="120" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtResult" Grid.Column="1" HorizontalAlignment="Left" Margin="103,14,0,0" TextWrapping="Wrap" Width="580" Grid.Row="1" Height="54" FontSize="12" FontWeight="Bold" HorizontalScrollBarVisibility="Auto" MinWidth="580" MaxWidth="250" MinHeight="40" MaxHeight="40" IsReadOnly="True" FontStyle="Italic" MaxLength="2048" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <CheckBox x:Name="chkColumn9" Grid.Column="1" Content="Stĺpec8" Margin="897,104,0,0" FontSize="12" RenderTransformOrigin="1.152,0.476" Height="32" Width="120" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Dáta pre tlač:" VerticalAlignment="Top" Grid.Column="1" Margin="8,21,0,0" FontSize="14" FontWeight="Bold" Height="20" Width="88" Grid.RowSpan="2"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="183,14,0,0" TextWrapping="Wrap" Text="Výber hárku:" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Height="18" Width="92"/>
+        <ComboBox x:Name="comboBox1" Grid.Column="1" HorizontalAlignment="Left" Margin="21,61,0,0" Grid.Row="2" Width="72" SelectionChanged="ComboBox_SelectionChanged_1" MinWidth="68" MaxWidth="68" MaxHeight="33" MinHeight="33" FontSize="12" Height="34" VerticalAlignment="Top"/>
+        <ComboBox x:Name="zvyrazCombo" Grid.Column="1" HorizontalAlignment="Left" Margin="911,61,0,0" Grid.Row="2" Width="72" SelectionChanged="zvyrazCombo_SelectionChanged" MaxWidth="68" MinWidth="68" MaxHeight="33" MinHeight="33" FontSize="12" Height="34" VerticalAlignment="Top"/>
+        <ui:TextBox x:Name="constSpeedSet" Grid.Column="1" HorizontalAlignment="Left" Margin="769,122,0,0" Grid.Row="2" TextWrapping="Wrap" Width="100" Height="36" MinWidth="100" MaxWidth="100" MinHeight="30" MaxHeight="30" FontSize="12" MaxLength="5" MaxLines="1" LostFocus="constSpeedSet_LostFocus" VerticalAlignment="Top"/>
+        <ui:TextBox x:Name="delenietacha" Grid.Column="1" HorizontalAlignment="Left" Margin="446,61,0,0" Grid.Row="2" TextWrapping="Wrap" Width="120" MaxWidth="100" MinWidth="100" MaxHeight="30" MinHeight="30" FontSize="12" Height="30" MaxLength="3" MaxLines="1" LostFocus="delenietacha_LostFocus" VerticalAlignment="Top"/>
+        <ComboBox x:Name="tachoModeComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="580,122,0,0" Grid.Row="2" Width="160" SelectionChanged="tachoModeComboBox_SelectionChanged" Height="36" MinWidth="160" MaxWidth="160" MinHeight="33" MaxHeight="33" FontSize="12" VerticalAlignment="Top"/>
+        <ComboBox x:Name="printingModeComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="438,122,0,0" Grid.Row="2" Width="120" Height="36" MinHeight="33" MaxHeight="33" MinWidth="115" MaxWidth="115" FontSize="12" VerticalAlignment="Top" SelectionChanged="printingModeComboBox_SelectionChanged"/>
+        <ComboBox x:Name="unitTypeComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="898,122,0,0" Grid.Row="2" Width="95" Height="36" MinHeight="33" MaxHeight="33" MaxWidth="95" MinWidth="95" FontSize="12" VerticalAlignment="Top"/>
+        <ComboBox x:Name="charactersVerticalDirectionComboBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="293,122,0,0" Grid.Row="2" Width="120" Height="36" MinWidth="115" MinHeight="33" MaxWidth="115" MaxHeight="33" FontSize="12" VerticalAlignment="Top"/>
+        <ComboBox x:Name="charactersHorizontalDirectionComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="149,122,0,0" Grid.Row="2" Width="120" Height="36" MinWidth="115" MaxWidth="115" MinHeight="33" MaxHeight="33" FontSize="12" VerticalAlignment="Top"/>
+        <ComboBox x:Name="jobHorizontalDirectionComboBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,122,0,0" Grid.Row="2" Width="120" Height="36" MinWidth="115" MaxWidth="115" MinHeight="33" MaxHeight="33" FontSize="12" VerticalAlignment="Top"/>
+        <ui:TextBox x:Name="medzerapred" Grid.Column="1" HorizontalAlignment="Left" Margin="154,61,0,0" Grid.Row="2" TextWrapping="Wrap" Width="100" LostFocus="medzerapred_LostFocus" MinWidth="100" MaxWidth="100" MaxHeight="30" MinHeight="30" FontSize="12" Height="30" MaxLines="1" MaxLength="5" VerticalAlignment="Top"/>
+        <ui:TextBox x:Name="medzeraza" Grid.Column="1" HorizontalAlignment="Left" Margin="298,61,0,0" Grid.Row="2" TextWrapping="Wrap" Width="120" LostFocus="medzeraza_LostFocus" MinWidth="100" MaxWidth="100" MaxHeight="30" MinHeight="30" FontSize="12" Height="30" MaxLength="5" MaxLines="1" VerticalAlignment="Top"/>
+        <ui:TextBox x:Name="pocetOP" Grid.Column="1" HorizontalAlignment="Left" Margin="605,61,0,0" Grid.Row="2" TextWrapping="Wrap" Width="120" MinWidth="100" MaxWidth="100" MaxHeight="30" MinHeight="30" FontSize="12" Height="30" MaxLength="5" MaxLines="1" LostFocus="pocetOP_LostFocus" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="21,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Veľkosť písma" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="97"/>
+        <TextBlock HorizontalAlignment="Left" Margin="167,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Medzera pred" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="74" RenderTransformOrigin="0.462,0.525"/>
+        <TextBlock HorizontalAlignment="Left" Margin="316,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Medzer za" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="68" RenderTransformOrigin="0.423,-2.734"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="460,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Delenie tacha" VerticalAlignment="Top" Height="16" Width="72"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="607,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Počet opakovaní" VerticalAlignment="Top" Height="16" Width="96"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="769,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Interval opakovania" VerticalAlignment="Top" Height="16" Width="107"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="913,40,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Zvýraznenie" VerticalAlignment="Top" Height="16" Width="66"/>
+        <TextBlock HorizontalAlignment="Left" Margin="26,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Smer správy" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="75"/>
+        <TextBlock HorizontalAlignment="Left" Margin="156,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Horizontálny smer" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="103"/>
+        <TextBlock HorizontalAlignment="Left" Margin="308,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Vertikálny smer" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="101"/>
+        <TextBlock HorizontalAlignment="Left" Margin="458,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Režim tlače" VerticalAlignment="Top" Height="16" Width="80" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="610,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Meranie rýchlosti" VerticalAlignment="Top" Height="16" Width="104" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="773,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Rýchlosť produktu" VerticalAlignment="Top" Height="16" Width="104" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="920,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Jednotky" VerticalAlignment="Top" Height="16" Width="58" Grid.Column="1"/>
+        <ui:Button x:Name="sendBtn" Grid.Column="1" Content="Odoslať na tlač" Margin="720,7,0,0" Height="53" Width="134" Click="sendBtn_Click" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2" />
+        <TextBlock x:Name="fileBox" Grid.Column="1" HorizontalAlignment="Left" Margin="110,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="570" FontSize="14" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="15,58,0,0" TextWrapping="Wrap" Text="Aktuálny súbor:" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" Height="18" Width="90"/>
+        <ui:Button x:Name="sendPrintSignalbtn" Grid.Column="1" Content="Signál pre tlač" Margin="886,12,0,0" Grid.Row="1" Height="42" Width="111" IsCancel="True" Background="#0F0DD641" VerticalAlignment="Top" Click="sendPrintSignalbtn_Click" Grid.RowSpan="2"/>
+        <ui:Button x:Name="btnSaveProdatapro" Grid.Column="1" Content="Uložiť" Margin="924,50,0,0" MinWidth="66" MaxWidth="66" MinHeight="32" MaxHeight="32" Height="32" Width="66" VerticalAlignment="Top" Click="btnSaveProdatapro_Click"/>
+        <ComboBox x:Name="saveProfiledatapro" Grid.Column="1" HorizontalAlignment="Left" Margin="868,3,0,0" VerticalAlignment="Top" Width="120" MinWidth="120" MinHeight="37" MaxWidth="120" MaxHeight="37" Height="37" SelectionChanged="saveProfiledatapro_SelectionChanged"/>
+        <ComboBox x:Name="ProfileSetCombodatapro" Grid.Column="1" HorizontalAlignment="Left" Margin="589,3,0,0" VerticalAlignment="Top" Width="120" MinWidth="120" MaxWidth="120" MinHeight="37" Height="37" SelectionChanged="ProfileSetCombodatapro_SelectionChanged"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Načítať parametre z profilu:" VerticalAlignment="Top" Height="37" Width="108" Margin="0,4,0,0"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="740,5,0,0" TextWrapping="Wrap" Text="Uložiť aktuálne parametredo profilu:" VerticalAlignment="Top" Height="31" Width="125"/>
+    </Grid>
+</ui:UiPage>
