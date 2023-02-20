@@ -24,10 +24,10 @@ public class ProfileManager
             {
             _profiles = new List<Profile>
 {
-    new Profile("Profil1", 1, 3, 3, 10, 1, 2, 0, 1, 1, 0, 1, 1, 200, 0),
-    new Profile("Profil2", 2, 4, 4, 2, 1, 3, 1, 1, 1, 1, 1, 1, 300, 0),
-    new Profile("Profil3", 3, 5, 5, 3, 2, 4, 2, 0, 0, 0, 0, 0, 400, 0),
-    new Profile("Profil4", 4, 6, 6, 4, 3, 5, 3, 1, 1, 1, 1, 1, 500, 0)
+    new Profile("Profil1", 1, 3, 3, 10, 1, 2, 1, 1, 1, 0, 1, 1, 1700, 0),
+    new Profile("Profil2", 2, 4, 4, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1700, 0),
+    new Profile("Profil3", 3, 5, 5, 3, 2, 4, 2, 0, 0, 0, 0, 0, 1700, 0),
+    new Profile("Profil4", 4, 6, 6, 4, 3, 5, 3, 1, 1, 1, 1, 1, 1700, 0)
 };
             SaveProfiles();
                 MessageBox.Show("Boli vytvorené nové náhodné profily.");

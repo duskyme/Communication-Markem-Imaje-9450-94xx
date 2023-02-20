@@ -24,8 +24,7 @@ using Wpf.Ui.Interop.WinDef;
 using System.ComponentModel;
 using System.Net;
 using NPOI.OpenXmlFormats.Wordprocessing;
-//using Wpf.Ui.Controls;
-//using Wpf.Ui.Controls;
+
 
 namespace DataBasePrint.Views.Pages
 {
@@ -53,6 +52,10 @@ namespace DataBasePrint.Views.Pages
         public bool isPrinterOnline;
         private bool _isPrinterOnline;
         int spacenumber;
+
+
+        private DataGridRow _selectedRow = null;
+        private DataGridRow _previousSelectedRow;
 
         public ViewModels.DashboardViewModel ViewModel
         {
@@ -289,7 +292,7 @@ namespace DataBasePrint.Views.Pages
 
 
 
-        private DataGridRow _selectedRow;
+        
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -305,8 +308,10 @@ namespace DataBasePrint.Views.Pages
                 // zmena farby okraja pre predchádzajúci vybraný riadok (ak existuje)
                 if (_selectedRow != null)
                 {
+                    
                     _selectedRow.BorderBrush = Brushes.Transparent;
                     _selectedRow.BorderThickness = new Thickness(0);
+                 
                 }
 
                 // uloženie odkazu na nový vybraný riadok
@@ -315,6 +320,14 @@ namespace DataBasePrint.Views.Pages
                 // zafarbenie nového vybraného riadku
                 _selectedRow.BorderBrush = Brushes.ForestGreen;
                 _selectedRow.BorderThickness = new Thickness(0, 2, 0, 2);
+
+
+              
+                // uloženie odkazu na nový vybraný riadok
+                _previousSelectedRow = selectedRow;
+                               
+               
+
                 //  MessageBox.Show("Vybraný riadok má index: " + rowIndex);
                 using (FileStream stream = File.Open(filePath2, FileMode.Open, FileAccess.Read))
                 {
@@ -890,7 +903,7 @@ namespace DataBasePrint.Views.Pages
             {
                 hexData[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
             }
-
+            
             //výpočet kontrolného súčtu
             static byte CalculateChecksum(byte[] data)
             {
@@ -905,7 +918,7 @@ namespace DataBasePrint.Views.Pages
             byte checksum = CalculateChecksum(hexData);
 
             hex = hex + checksum.ToString("X2");
-
+           
 
             SendData(hex, ip, port);
         }
@@ -936,17 +949,28 @@ namespace DataBasePrint.Views.Pages
                             // ak príde odpoveď v časovom limite, skontrolujte, či je odpoveď 06h
                             if (response[0] == 0x06)
                             {
+                                Dispatcher.Invoke(() =>
+                                {
+                                    if (_previousSelectedRow != null)
+                                    {
+                                        _previousSelectedRow.Foreground = Brushes.GreenYellow;
+                                    }
+                                });
+
                                 stream.Close();
+                                client.Close();
                                 MessageBox.Show("Dáta boli úspešne odoslané.");
                             }
                         }
                         else
                         {
                             stream.Close();
+                            client.Close();
                             // ak sa nevráti odpoveď v časovom limite, zobrazte chybovú hlášku
                             MessageBox.Show("Časový limit vypršal. Nepodarilo sa prijatie odpovede od zariadenia.");
                         }
                         stream.Close();
+                        client.Close();
                     }
                 }
 

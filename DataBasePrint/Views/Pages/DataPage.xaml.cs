@@ -586,16 +586,19 @@ namespace DataBasePrint.Views.Pages
                             if (response[0] == 0x06)
                             {
                                 adtstream.Close();
+                                adtclient.Close();
                                 MessageBox.Show("Dáta boli úspešne odoslané.");
                             }
                         }
                         else
                         {
                             adtstream.Close();
+                            adtclient.Close();
                             // ak sa nevráti odpoveď v časovom limite, zobrazte chybovú hlášku
                             MessageBox.Show("Časový limit vypršal. Nepodarilo sa prijatie odpovede od zariadenia.");
                         }
                         adtstream.Close();
+                        adtclient.Close();
                     }
                 }
 

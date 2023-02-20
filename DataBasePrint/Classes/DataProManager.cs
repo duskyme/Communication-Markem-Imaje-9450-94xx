@@ -24,10 +24,10 @@ public class DataProManager
         {
             _profilesdatapro = new List<Profiledatapro>
         {
-            new Profiledatapro("Profil1", 0, 3, 3, 10, 0, 1000, 0, 1, 1, 0, 1, 1, 200, 0),
-            new Profiledatapro("Profil2", 2, 4, 4, 2, 1, 3, 1, 1, 1, 1, 1, 1, 300, 0),
-            new Profiledatapro("Profil3", 3, 5, 5, 3, 2, 4, 2, 0, 0, 0, 0, 0, 400, 0),
-            new Profiledatapro("Profil4", 4, 6, 6, 4, 3, 5, 3, 1, 1, 1, 1, 1, 500, 0)
+            new Profiledatapro("Profil1", 1, 3, 35, 10, 0, 200, 1, 1, 1, 0, 1, 1, 1700, 0),
+            new Profiledatapro("Profil2", 2, 4, 4, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1700, 0),
+            new Profiledatapro("Profil3", 3, 5, 5, 3, 2, 4, 2, 0, 0, 0, 0, 0, 1700, 0),
+            new Profiledatapro("Profil4", 4, 6, 6, 4, 3, 5, 3, 1, 1, 1, 1, 1, 1700, 0)
         };
             SaveProfilesdatapro();
             MessageBox.Show("Boli vytvorené nové náhodné profily");
