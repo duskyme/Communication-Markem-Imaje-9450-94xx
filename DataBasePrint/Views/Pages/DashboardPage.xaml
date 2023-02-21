@@ -26,14 +26,14 @@
         <DataGrid x:Name="DataGrid" EnableRowVirtualization="False" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Column="1" SelectionChanged="DataGrid_SelectionChanged" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxColumnWidth="110" MinColumnWidth="110" HorizontalAlignment="Left" Width="1017" HorizontalGridLinesBrush="#FF8E8A8A" VerticalGridLinesBrush="#FF9A9A9A" HeadersVisibility="None" CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeRows="False" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" Margin="0,136,0,0"/>
         <TextBox x:Name="intarvalOP"  Grid.Column="1" HorizontalAlignment="Left" Margin="769,61,0,0" TextWrapping="Wrap" Width="100" Height="34" Grid.Row="2" LostFocus="IntarvalOP_LostFocus" MinWidth="100" MaxWidth="100" MaxHeight="30" MinHeight="30" FontSize="12" MaxLength="5" MaxLines="1" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkColumn1" Grid.Column="1" Content="Stĺpec0" Margin="19,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chkColumn2" Grid.Column="1" Content="Stĺpec1" Margin="130,104,0,0" FontSize="12" Width="120" Height="32" VerticalAlignment="Top" IsChecked="True"/>
-        <CheckBox x:Name="chkColumn3" Grid.Column="1" Content="Stĺpec2" Margin="240,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top" IsChecked="True"/>
-        <CheckBox x:Name="chkColumn4" Grid.Column="1" Content="Stĺpec3" Margin="351,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox x:Name="chkColumn2" Grid.Column="1" Content="Stĺpec1" Margin="130,104,0,0" FontSize="12" Width="120" Height="32" VerticalAlignment="Top" IsChecked="False"/>
+        <CheckBox x:Name="chkColumn3" Grid.Column="1" Content="Stĺpec2" Margin="240,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top" IsChecked="False"/>
+        <CheckBox x:Name="chkColumn4" Grid.Column="1" Content="Stĺpec3" Margin="351,104,0,0" FontSize="12" Height="32" Width="120" VerticalAlignment="Top" IsChecked="False"/>
         <CheckBox x:Name="chkColumn5" Grid.Column="1" Content="Stĺpec4" FontSize="12" Width="120" Height="32" Margin="461,104,0,0" RenderTransformOrigin="0.508,0.448" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkColumn6" Grid.Column="1" Content="Stĺpec5" FontSize="12" RenderTransformOrigin="0.753,0.026" Height="32" Width="120" HorizontalContentAlignment="Center" Margin="570,104,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkColumn7" Grid.Column="1" Content="Stĺpec6" Margin="679,104,0,0" FontSize="12" RenderTransformOrigin="1.152,0.476" Height="32" Width="120" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkColumn8" Grid.Column="1" Content="Stĺpec7" Margin="788,104,0,0" FontSize="12" RenderTransformOrigin="1.152,0.476" Height="32" Width="120" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtResult" Grid.Column="1" HorizontalAlignment="Left" Margin="103,14,0,0" TextWrapping="Wrap" Width="580" Grid.Row="1" Height="54" FontSize="12" FontWeight="Bold" HorizontalScrollBarVisibility="Auto" MinWidth="580" MaxWidth="250" MinHeight="40" MaxHeight="40" IsReadOnly="True" FontStyle="Italic" MaxLength="2048" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtResult" Grid.Column="1" HorizontalAlignment="Left" Margin="103,14,0,0" TextWrapping="Wrap" Width="722" Grid.Row="1" Height="54" FontSize="12" FontWeight="Bold" HorizontalScrollBarVisibility="Auto" MinWidth="722" MaxWidth="722" MinHeight="40" MaxHeight="40" IsReadOnly="True" FontStyle="Italic" MaxLength="2048" VerticalAlignment="Top" Grid.RowSpan="2"/>
         <CheckBox x:Name="chkColumn9" Grid.Column="1" Content="Stĺpec8" Margin="897,104,0,0" FontSize="12" RenderTransformOrigin="1.152,0.476" Height="32" Width="120" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Dáta pre tlač:" VerticalAlignment="Top" Grid.Column="1" Margin="8,21,0,0" FontSize="14" FontWeight="Bold" Height="20" Width="88" Grid.RowSpan="2"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="183,14,0,0" TextWrapping="Wrap" Text="Výber hárku:" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Height="18" Width="92"/>
@@ -64,10 +64,16 @@
         <TextBlock HorizontalAlignment="Left" Margin="610,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Meranie rýchlosti" VerticalAlignment="Top" Height="16" Width="104" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="773,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Rýchlosť produktu" VerticalAlignment="Top" Height="16" Width="104" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="920,105,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Jednotky" VerticalAlignment="Top" Height="16" Width="58" Grid.Column="1"/>
-        <ui:Button x:Name="sendBtn" Grid.Column="1" Content="Odoslať na tlač" Margin="720,7,0,0" Height="53" Width="134" Click="sendBtn_Click" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2" />
+        <ui:Button x:Name="sendBtn" Grid.Column="1" Margin="861,6,0,0" Height="53" Width="134" Click="sendBtn_Click" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2" FontSize="12" FontWeight="Bold">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="14">
+        Odoslať a
+        <LineBreak/>
+        spustiť tlač
+            </TextBlock>
+        </ui:Button>
         <TextBlock x:Name="fileBox" Grid.Column="1" HorizontalAlignment="Left" Margin="110,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="570" FontSize="14" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="15,58,0,0" TextWrapping="Wrap" Text="Aktuálny súbor:" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" Height="18" Width="90"/>
-        <ui:Button x:Name="sendPrintSignalbtn" Grid.Column="1" Content="Signál pre tlač" Margin="886,12,0,0" Grid.Row="1" Height="42" Width="111" IsCancel="True" Background="#0F0DD641" VerticalAlignment="Top" Click="sendPrintSignalbtn_Click" Grid.RowSpan="2"/>
+        <ui:Button x:Name="sendPrintSignalbtn" Grid.Column="1" Content="Signál pre tlač" Margin="886,12,0,0" Grid.Row="1" Height="42" Width="111" IsCancel="True" Background="#0F0DD641" VerticalAlignment="Top" Click="sendPrintSignalbtn_Click" Grid.RowSpan="2" Visibility="Hidden"/>
         <ui:Button x:Name="btnSaveProdatapro" Grid.Column="1" Content="Uložiť" Margin="924,50,0,0" MinWidth="66" MaxWidth="66" MinHeight="32" MaxHeight="32" Height="32" Width="66" VerticalAlignment="Top" Click="btnSaveProdatapro_Click"/>
         <ComboBox x:Name="saveProfiledatapro" Grid.Column="1" HorizontalAlignment="Left" Margin="868,3,0,0" VerticalAlignment="Top" Width="120" MinWidth="120" MinHeight="37" MaxWidth="120" MaxHeight="37" Height="37" SelectionChanged="saveProfiledatapro_SelectionChanged"/>
         <ComboBox x:Name="ProfileSetCombodatapro" Grid.Column="1" HorizontalAlignment="Left" Margin="589,3,0,0" VerticalAlignment="Top" Width="120" MinWidth="120" MaxWidth="120" MinHeight="37" Height="37" SelectionChanged="ProfileSetCombodatapro_SelectionChanged"/>

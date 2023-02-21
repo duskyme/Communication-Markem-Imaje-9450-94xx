@@ -478,7 +478,10 @@ namespace DataBasePrint.Views.Pages
 
                 }
                 txtResult.Text = RemoveDiacritics(result);
-          }
+                sendBtn.Background = new SolidColorBrush(Color.FromArgb(0x0F, 0x0D, 0xD6, 0x41));
+                sendBtn.MouseOverBackground = Brushes.Transparent;
+
+            }
 
         }
 
@@ -743,6 +746,12 @@ namespace DataBasePrint.Views.Pages
         }
         private void sendBtn_Click(object sender, RoutedEventArgs e)
         {
+            
+            sendBtn.Background = Brushes.Red;
+           
+            sendBtn.MouseOverBackground = Brushes.Red;
+            
+
             string jobHorizontalDirection = jobHorizontalDirectionComboBox.SelectedItem.ToString();
             string charactersHorizontalDirection = charactersHorizontalDirectionComboBox.SelectedItem.ToString();
             string charactersVerticalDirection = charactersVerticalDirectionComboBox.SelectedItem.ToString();
@@ -922,7 +931,7 @@ namespace DataBasePrint.Views.Pages
 
             SendData(hex, ip, port);
         }
-        private void SendData(string hex, string ip, int port)
+        private async Task SendData(string hex, string ip, int port)
         {
             // konverzia hex stringu na bytové pole
             byte[] hexstream = new byte[hex.Length / 2];
@@ -949,17 +958,13 @@ namespace DataBasePrint.Views.Pages
                             // ak príde odpoveď v časovom limite, skontrolujte, či je odpoveď 06h
                             if (response[0] == 0x06)
                             {
-                                Dispatcher.Invoke(() =>
-                                {
-                                    if (_previousSelectedRow != null)
-                                    {
-                                        _previousSelectedRow.Foreground = Brushes.GreenYellow;
-                                    }
-                                });
+                                
+                                await Task.Delay(500);
+                                sendPrintSignalbtn_Click(null, null);
+                                //stream.Close();
+                                // client.Close();
 
-                                stream.Close();
-                                client.Close();
-                                MessageBox.Show("Dáta boli úspešne odoslané.");
+                                // MessageBox.Show("Dáta boli úspešne odoslané.");
                             }
                         }
                         else
@@ -1077,7 +1082,18 @@ namespace DataBasePrint.Views.Pages
                         {
                             printistream.Write(new byte[] { 0x94, 0x00, 0x00, 0x94 }, 0, 4);
                             printiclient.Close();
-                            MessageBox.Show("Príkaz odoslaný");
+                            Dispatcher.Invoke(() =>
+                            {
+                                if (_previousSelectedRow != null)
+                                {
+                                    _previousSelectedRow.Foreground = Brushes.GreenYellow;
+                                }
+                            });
+                            sendBtn.Background = Brushes.Green;
+                            sendBtn.MouseOverBackground = Brushes.Green;
+                            
+
+                            // MessageBox.Show("Príkaz odoslaný");
                         }
                     }
                     printiclient.Close();
@@ -1103,6 +1119,15 @@ namespace DataBasePrint.Views.Pages
             charactersVerticalDirectionComboBox.SelectedIndex = profiledatapro.CharVdirectProdatapro;
             charactersHorizontalDirectionComboBox.SelectedIndex = profiledatapro.CharHdirectProdatapro;
             jobHorizontalDirectionComboBox.SelectedIndex = profiledatapro.JobdirectionProdatapro;
+            chkColumn1.IsChecked = profiledatapro.Checkbox1Prodatapro;
+            chkColumn2.IsChecked = profiledatapro.Checkbox2Prodatapro;
+            chkColumn3.IsChecked = profiledatapro.Checkbox3Prodatapro;
+            chkColumn4.IsChecked = profiledatapro.Checkbox4Prodatapro;
+            chkColumn5.IsChecked = profiledatapro.Checkbox5Prodatapro;
+            chkColumn6.IsChecked = profiledatapro.Checkbox6Prodatapro;
+            chkColumn7.IsChecked = profiledatapro.Checkbox7Prodatapro;
+            chkColumn8.IsChecked = profiledatapro.Checkbox8Prodatapro;
+            chkColumn9.IsChecked = profiledatapro.Checkbox9Prodatapro;
 
             delenietacha.Text = profiledatapro.DelenietachaProdatapro.ToString();
             ValidateAndConvertdelenietacha(delenietacha);
@@ -1166,6 +1191,15 @@ namespace DataBasePrint.Views.Pages
            // MessageBox.Show("Profile number of operations: " + selectedProfiledatapro.FontSizeProdatapro);
             selectedProfiledatapro.IntervapopProdatapro = Convert.ToInt32(intarvalOP.Text);
            // MessageBox.Show("Profile interval of operations: " + selectedProfiledatapro.FontSizeProdatapro);
+           selectedProfiledatapro.Checkbox1Prodatapro = chkColumn1.IsChecked.GetValueOrDefault(false); 
+            selectedProfiledatapro.Checkbox2Prodatapro = chkColumn2.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox3Prodatapro = chkColumn3.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox4Prodatapro = chkColumn4.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox5Prodatapro = chkColumn5.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox6Prodatapro = chkColumn6.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox7Prodatapro = chkColumn7.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox8Prodatapro = chkColumn8.IsChecked.GetValueOrDefault(false);
+            selectedProfiledatapro.Checkbox9Prodatapro = chkColumn9.IsChecked.GetValueOrDefault(false);
 
             _profileManagerdatapro.SaveProfilesdatapro();
 

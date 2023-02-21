@@ -24,10 +24,10 @@ public class DataProManager
         {
             _profilesdatapro = new List<Profiledatapro>
         {
-            new Profiledatapro("Profil1", 1, 3, 35, 14, 0, 200, 1, 1, 1, 0, 1, 1, 1700, 0),
-            new Profiledatapro("Profil2", 2, 4, 4, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1700, 0),
-            new Profiledatapro("Profil3", 3, 5, 5, 3, 2, 4, 2, 0, 0, 0, 0, 0, 1700, 0),
-            new Profiledatapro("Profil4", 4, 6, 6, 4, 3, 5, 3, 1, 1, 1, 1, 1, 1700, 0)
+            new Profiledatapro("Profil1", 1, 3, 35, 14, 0, 200, 1, 1, 1, 0, 1, 1, 1700, 0, false, true, true, true, false, false, false, false, false),
+            new Profiledatapro("Profil2", 2, 4, 4, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1700, 0, false, false, false, false, false, false, false, false, false),
+            new Profiledatapro("Profil3", 3, 5, 5, 3, 2, 4, 2, 0, 0, 0, 0, 0, 1700, 0, false, true, false, true, false, false, false, false, false),
+            new Profiledatapro("Profil4", 4, 6, 6, 4, 3, 5, 3, 1, 1, 1, 1, 1, 1700, 0, false, false, true, false, false, false, false, false, false)
         };
             SaveProfilesdatapro();
             MessageBox.Show("Boli vytvorené nové náhodné profily");
@@ -115,7 +115,50 @@ public class DataProManager
             {
                 MessageBox.Show("Chyba: Pole UnitsProdatapro pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
             }
+            if (profile.Checkbox1Prodatapro != true && profile.Checkbox1Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox1 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
 
+            if (profile.Checkbox2Prodatapro != true && profile.Checkbox2Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox2 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox3Prodatapro != true && profile.Checkbox3Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox3 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox4Prodatapro != true && profile.Checkbox4Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox4 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox5Prodatapro != true && profile.Checkbox5Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox5 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox6Prodatapro != true && profile.Checkbox6Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox6 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox7Prodatapro != true && profile.Checkbox7Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox7 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox8Prodatapro != true && profile.Checkbox8Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox8 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
+
+            if (profile.Checkbox9Prodatapro != true && profile.Checkbox9Prodatapro != false)
+            {
+                MessageBox.Show("Chyba: Pole Checkbox9 pre profil " + profile.Namedatapro + " má neplatnú hodnotu");
+            }
         }
     }
 
@@ -179,13 +222,36 @@ public class Profiledatapro
     public int PruductSpeedProdatapro { get; set; }
     [XmlElement("UnitsProIndexdatapro")]
     public int UnitsProdatapro { get; set; }
+    [XmlElement("Checkbox1")]
+    public bool Checkbox1Prodatapro { get; set; }
+    [XmlElement("Checkbox2Prodatapro")]
+    public bool Checkbox2Prodatapro { get; set; }
+    [XmlElement("Checkbox3Prodatapro")]
+    public bool Checkbox3Prodatapro { get; set; }
+    [XmlElement("Checkbox4Prodatapro")]
+    public bool Checkbox4Prodatapro { get; set; }
+    [XmlElement("Checkbox5Prodatapro")]
+    public bool Checkbox5Prodatapro { get; set; }
+    [XmlElement("Checkbox6Prodatapro")]
+    public bool Checkbox6Prodatapro { get; set; }
+    [XmlElement("Checkbox7Prodatapro")]
+    public bool Checkbox7Prodatapro { get; set; }
+    [XmlElement("Checkbox8Prodatapro")]
+    public bool Checkbox8Prodatapro { get; set; }
+    [XmlElement("Checkbox9Prodatapro")]
+    public bool Checkbox9Prodatapro { get; set; }
 
     public Profiledatapro()
     {
         // Default constructor for serialization purposes
     }
 
-    public Profiledatapro(string namedatapro, int fontSizeProdatapro, int medzerapredProdatapro, int medzerazaProdatapro, int delenietachaProdatapro, int poceopProdatapro, int intervapopProdatapro, int expanseProdatapro, int jobdirectionProdatapro, int charVdirectProdatapro, int charHdirectProdatapro, int printmodeProdatapro, int speedmodeProdatapro, int pruductSpeedProdatapro, int unitsProdatapro)
+    public Profiledatapro(string namedatapro, int fontSizeProdatapro, int medzerapredProdatapro, 
+        int medzerazaProdatapro, int delenietachaProdatapro, int poceopProdatapro, int intervapopProdatapro,
+        int expanseProdatapro, int jobdirectionProdatapro, int charVdirectProdatapro, int charHdirectProdatapro,
+        int printmodeProdatapro, int speedmodeProdatapro, int pruductSpeedProdatapro, int unitsProdatapro,
+        bool checkbox1datapro, bool checkbox2datapro, bool checkbox3datapro, bool checkbox4datapro, 
+        bool checkbox5datapro, bool checkbox6datapro, bool checkbox7datapro, bool checkbox8datapro, bool checkbox9datapro)
     {
         Namedatapro = namedatapro;
         FontSizeProdatapro = fontSizeProdatapro;
@@ -202,5 +268,14 @@ public class Profiledatapro
         SpeedmodeProdatapro = speedmodeProdatapro;
         PruductSpeedProdatapro = pruductSpeedProdatapro;
         UnitsProdatapro = unitsProdatapro;
+        Checkbox1Prodatapro = checkbox1datapro;
+        Checkbox2Prodatapro = checkbox2datapro;
+        Checkbox3Prodatapro = checkbox3datapro;
+        Checkbox4Prodatapro = checkbox4datapro;
+        Checkbox5Prodatapro = checkbox5datapro;
+        Checkbox6Prodatapro = checkbox6datapro;
+        Checkbox7Prodatapro = checkbox7datapro;
+        Checkbox8Prodatapro = checkbox8datapro;
+        Checkbox9Prodatapro = checkbox9datapro;
     }
 }
