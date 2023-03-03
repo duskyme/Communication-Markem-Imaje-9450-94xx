@@ -24,7 +24,7 @@ using Wpf.Ui.Interop.WinDef;
 using System.ComponentModel;
 using System.Net;
 using NPOI.OpenXmlFormats.Wordprocessing;
-
+using NPOI.OpenXmlFormats.Spreadsheet;
 
 namespace DataBasePrint.Views.Pages
 {
@@ -36,7 +36,7 @@ namespace DataBasePrint.Views.Pages
         public static string intervalOp;
         public static string rowCount;
         public static string filePath2;
-        public static int sheetIndex;
+        public static int sheetIndex = 0;
         public static string fontSize;
         public static string medzpred;
         public static string medzza;
@@ -156,17 +156,17 @@ namespace DataBasePrint.Views.Pages
 
         }
 
-       
-              
-     
+
+
+
 
         private void OpenExcel_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            ComboBox.ItemsSource = null;
             openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
             if (openFileDialog.ShowDialog() == true)
             {
-
                 string filePath = openFileDialog.FileName;
                 fileBox.Text = Path.GetFileName(filePath);
 
@@ -198,10 +198,11 @@ namespace DataBasePrint.Views.Pages
                         {
                             sheetNames.Add(workbook.GetSheetAt(i).SheetName);
                         }
+
+                       
                         ComboBox.ItemsSource = sheetNames;
                         workbook.Close();
                         ComboBox.SelectionChanged += (s, args) => ComboBox_SelectionChanged(s, args, filePath);
-
                     }
                 }
                 catch (IOException ex)
@@ -214,10 +215,11 @@ namespace DataBasePrint.Views.Pages
                 }
             }
         }
+
         private void ComboBox_SelectionChanged(object s, SelectionChangedEventArgs args, string filePath)
         {
-
             int selectedIndex = ComboBox.SelectedIndex;
+
             try
             {
                 using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
@@ -246,34 +248,48 @@ namespace DataBasePrint.Views.Pages
                         filePath2 = filePath;
                         ISheet sheet = workbook.GetSheetAt(selectedIndex);
                         int totalRows = sheet.LastRowNum;
-                        if (totalRows > 0)
+                        if (totalRows >= 0)
                         {
                             IRow headerRow = sheet.GetRow(0);
-                            int totalColumns = headerRow.LastCellNum;
-                            if (totalColumns > 0)
+                            if (headerRow == null || headerRow.Cells.All(c => string.IsNullOrWhiteSpace(c?.ToString())))
                             {
-                                DataTable dataTable = new DataTable();
-                                for (int i = 0; i < totalColumns; i++)
+                                headerRow = sheet.CreateRow(0);
+                                for (int j = 0; j < 8; j++)
                                 {
-                                    dataTable.Columns.Add(i.ToString());
+                                    headerRow.CreateCell(j).SetCellValue("");
                                 }
-                                for (int i = 0; i <= totalRows; i++)
-                                {
-                                    IRow row = sheet.GetRow(i);
-                                    if (row == null) continue;
-                                    DataRow dataRow = dataTable.NewRow();
-                                    for (int j = 0; j < totalColumns; j++)
-                                    {
-                                        ICell cell = row.GetCell(j);
-                                        if (cell == null) continue;
-                                        dataRow[j] = cell.ToString();
-                                    }
-                                    dataTable.Rows.Add(dataRow);
-                                    sheetIndex = selectedIndex;
-                                }
-
-                                DataGrid.ItemsSource = dataTable.DefaultView;
                             }
+                            int totalColumns = headerRow?.Cells?.Count ?? 0;
+                            DataTable dataTable = new DataTable();
+                            for (int i = 0; i < 8; i++)
+                            {
+                                dataTable.Columns.Add(i.ToString());
+                            }
+
+                            int nullRowCount = 0;
+                            for (int i = 0; i <= totalRows; i++)
+                            {
+                                IRow row = sheet.GetRow(i);
+                                if (row == null || row.Cells.All(c => string.IsNullOrWhiteSpace(c?.ToString())))
+                                {
+                                    row = sheet.CreateRow(i);
+                                    for (int j = 0; j < 8; j++)
+                                    {
+                                        row.CreateCell(j).SetCellValue("");
+                                    }
+                                    nullRowCount++;
+                                }
+                                DataRow dataRow = dataTable.NewRow();
+                                for (int j = 0; j < 8; j++)
+                                {
+                                    ICell cell = row.GetCell(j);
+                                    dataRow[j] = cell?.ToString()?.Trim() ?? string.Empty;
+                                }
+                                dataTable.Rows.Add(dataRow);
+                            }
+
+                            sheetIndex = selectedIndex;
+                            DataGrid.ItemsSource = dataTable.DefaultView;
                         }
                     }
                 }
@@ -284,34 +300,27 @@ namespace DataBasePrint.Views.Pages
             }
         }
 
-        private void txtResult_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
 
-
-
-        
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             DataGrid dataGrid = sender as DataGrid;
             DataRowView dataRowView = dataGrid.SelectedItem as DataRowView;
             if (dataRowView != null)
             {
                 string result = "";
                 int rowIndex = dataGrid.Items.IndexOf(dataRowView);
+                
                 DataGridRow selectedRow = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(rowIndex);
 
                 // zmena farby okraja pre predchádzajúci vybraný riadok (ak existuje)
                 if (_selectedRow != null)
                 {
-                    
+
                     _selectedRow.BorderBrush = Brushes.Transparent;
                     _selectedRow.BorderThickness = new Thickness(0);
-                 
+
                 }
 
                 // uloženie odkazu na nový vybraný riadok
@@ -322,11 +331,11 @@ namespace DataBasePrint.Views.Pages
                 _selectedRow.BorderThickness = new Thickness(0, 2, 0, 2);
 
 
-              
+
                 // uloženie odkazu na nový vybraný riadok
                 _previousSelectedRow = selectedRow;
-                               
-               
+
+
 
                 //  MessageBox.Show("Vybraný riadok má index: " + rowIndex);
                 using (FileStream stream = File.Open(filePath2, FileMode.Open, FileAccess.Read))
@@ -347,131 +356,142 @@ namespace DataBasePrint.Views.Pages
                     string multipliedString = new string(' ', spacenumber);
                     result = "";
                     IRow row = workbook.GetSheetAt(sheetIndex).GetRow(rowIndex);
-                    if (chkColumn1.IsChecked == true)
+                    if (row != null)
                     {
-                        if (row.GetCell(0) != null)
+                        if (chkColumn1.IsChecked == true)
                         {
-                            result += row.GetCell(0).ToString();
-                        }
-                    }
-                    if (chkColumn2.IsChecked == true)
-                    {
-                        if (row.GetCell(1) != null)
-                        {
-                            if (result.Length > 0)
+                            if (row.GetCell(0) != null)
                             {
-                                string cellValue = row.GetCell(1).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(1).ToString();
+                                result += row.GetCell(0).ToString() ?? string.Empty;
                             }
                         }
-                    }
-                    if (chkColumn3.IsChecked == true)
-                    {
-                        if (row.GetCell(2) != null)
+                        if (chkColumn2.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell1 = row.GetCell(1);
+                            if (cell1 != null && !string.IsNullOrEmpty(cell1.ToString()))
                             {
-                                string cellValue = row.GetCell(2).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(2).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell1.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell1.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
-                    }
-                    if (chkColumn4.IsChecked == true)
-                    {
-                        if (row.GetCell(3) != null)
+                        if (chkColumn3.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell2 = row.GetCell(2);
+                            if (cell2 != null && !string.IsNullOrEmpty(cell2.ToString()))
                             {
-                                string cellValue = row.GetCell(3).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(3).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell2.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell2.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
-                    }
-                    if (chkColumn5.IsChecked == true)
-                    {
-                        if (row.GetCell(4) != null)
+                        if (chkColumn4.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell3 = row.GetCell(3);
+                            if (cell3 != null && !string.IsNullOrEmpty(cell3.ToString()))
                             {
-                                string cellValue = row.GetCell(4).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(4).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell3.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell3.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
-                    }
-                    if (chkColumn6.IsChecked == true)
-                    {
-                        if (row.GetCell(5) != null)
+                        if (chkColumn5.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell4 = row.GetCell(4);
+                            if (cell4 != null && !string.IsNullOrEmpty(cell4.ToString()))
                             {
-                                string cellValue = row.GetCell(5).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(5).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell4.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell4.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
-                    }
-                    if (chkColumn7.IsChecked == true)
-                    {
-                        if (row.GetCell(6) != null)
+                        if (chkColumn6.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell5 = row.GetCell(5);
+                            if (cell5 != null && !string.IsNullOrEmpty(cell5.ToString()))
                             {
-                                string cellValue = row.GetCell(6).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(6).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell5.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell5.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
-                    }
-                    if (chkColumn8.IsChecked == true)
-                    {
-                        if (row.GetCell(7) != null)
+                        if (chkColumn7.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell6 = row.GetCell(6);
+                            if (cell6 != null && !string.IsNullOrEmpty(cell6.ToString()))
                             {
-                                string cellValue = row.GetCell(7).ToString().Trim();
-                                result += multipliedString + cellValue;
-                            }
-                            else
-                            {
-                                result += row.GetCell(7).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell6.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell6.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
 
-                    }
-                    if (chkColumn9.IsChecked == true)
-                    {
-                        if (row.GetCell(8) != null)
+                        if (chkColumn8.IsChecked == true)
                         {
-                            if (result.Length > 0)
+                            var cell7 = row.GetCell(7);
+                            if (cell7 != null && !string.IsNullOrEmpty(cell7.ToString()))
                             {
-                                string cellValue = row.GetCell(8).ToString().Trim();
-                                result += multipliedString + cellValue;
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell7.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell7.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
-                            else
+                        }
+                        if (chkColumn9.IsChecked == true)
+                        {
+                            var cell8 = row.GetCell(8);
+                            if (cell8 != null && !string.IsNullOrEmpty(cell8.ToString()))
                             {
-                                result += row.GetCell(8).ToString();
+                                if (result.Length > 0)
+                                {
+                                    string cellValue = cell8.ToString().Trim()?.ToString() ?? string.Empty;
+                                    result += multipliedString + cellValue;
+                                }
+                                else
+                                {
+                                    result += cell8.ToString()?.ToString() ?? string.Empty;
+                                }
                             }
                         }
                     }
@@ -484,6 +504,7 @@ namespace DataBasePrint.Views.Pages
             }
 
         }
+
 
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
@@ -1416,9 +1437,16 @@ namespace DataBasePrint.Views.Pages
             return builder.ToString();
         }
 
-        private void sendPrintSignalbtn_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void chkColumn_Checked(object sender, RoutedEventArgs e)
         {
-
+            DataGrid_SelectionChanged(DataGrid, null);
         }
+
+        private void chkColumn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            DataGrid_SelectionChanged(DataGrid, null);
+        }
+
+       
     }
 }

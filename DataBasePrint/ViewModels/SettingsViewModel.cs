@@ -29,7 +29,7 @@ namespace DataBasePrint.ViewModels
         private void InitializeViewModel()
         {
             CurrentTheme = Wpf.Ui.Appearance.Theme.GetAppTheme();
-            AppVersion = $"DataBasePrint - Version 1.1.0.40 (Buld.:202302181148), Autor: ©Dušan Meliš 2023, Vytvorené pre komunikáciu so zariadeniami Markem-Imaje® 94xx ";
+            AppVersion = $"DataBasePrint - Version 1.1.0.43 (Buld.:202303030800), Autor: ©Dušan Meliš 2023, Vytvorené pre komunikáciu so zariadeniami Markem-Imaje® 94xx ";
 
             _isInitialized = true;
         }

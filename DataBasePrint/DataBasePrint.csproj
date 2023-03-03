@@ -10,10 +10,10 @@
     <ApplicationIcon>applicationIcon.ico</ApplicationIcon>
     <Configurations>Debug;Release;Rel</Configurations>
     <Platforms>AnyCPU;x64</Platforms>
-    <AssemblyVersion>1.1.0.40</AssemblyVersion>
-    <FileVersion>1.1.0.40</FileVersion>
+    <AssemblyVersion>1.1.0.42</AssemblyVersion>
+    <FileVersion>1.1.0.42</FileVersion>
     <Product>$(AssemblyName)</Product>
-    <Version>1.1.0.40</Version>
+    <Version>1.1.0.42</Version>
     <Copyright>Dušan Meliš 2023</Copyright>
     <PackageIcon>applicationIcon-2562.png</PackageIcon>
     <NeutralLanguage>sk</NeutralLanguage>
